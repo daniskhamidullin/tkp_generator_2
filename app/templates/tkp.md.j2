@@ -1,0 +1,31 @@
+# Технико-коммерческое предложение
+**Проект:** {{ project.title }}
+**Клиент:** {{ client.name }} | Контакт: {{ client.contact_name }} | Email: {{ client.email }} | Тел.: {{ client.phone or "-" }}
+
+## 1. Краткое описание
+{{ project.summary }}
+
+## 2. Состав работ/поставки
+| Позиция | Описание | Кол-во | Ед. | Цена | Сумма |
+|---|---|---:|---|---:|---:|
+{% for r in scope -%}
+| {{ r.item }} | {{ r.desc or "" }} | {{ r.qty }} | {{ r.unit }} | {{ "%.2f"|format(r.price) }} | {{ "%.2f"|format(r.qty * r.price) }} |
+{% endfor %}
+
+**Итого (до скидки):** {{ "%.2f"|format(total_before_discount) }} {{ commercial.currency }}  
+**Скидка:** {{ commercial.discount_percent or 0 }}%  
+**Итого к оплате:** {{ "%.2f"|format(grand_total) }} {{ commercial.currency }}  
+**НДС:** {{ "включён" if commercial.vat_included else "не включён" }}
+
+## 3. Условия
+**Оплата:** {{ commercial.payment_terms }}
+**Срок действия ТКП:** до {{ legal.valid_until }}
+**Гарантия:** {{ legal.warranty }}
+**Ответственность:** {{ legal.liability or "—" }}
+
+## 4. Сроки
+**Дедлайн проекта:** {{ project.deadline }}
+
+## 5. Подписи
+Поставщик: {{ signatures.supplier_sign or "________" }}
+Клиент: {{ signatures.client_sign or "________" }}
